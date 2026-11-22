@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "packageVersion": 1,
+  "durationMs": 4000,
+  "lyrics": [
+    {
+      "startMs": 0,
+      "endMs": 4000,
+      "text": "Sing these three practice notes"
+    }
+  ],
+  "notes": [
+    {
+      "startMs": 0,
+      "endMs": 1000,
+      "midiNote": 60
+    },
+    {
+      "startMs": 1200,
+      "endMs": 2200,
+      "midiNote": 62
+    },
+    {
+      "startMs": 2400,
+      "endMs": 3800,
+      "midiNote": 64
+    }
+  ]
+}

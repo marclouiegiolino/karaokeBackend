@@ -1,0 +1,50 @@
+{
+  "name": "karaoke-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.dev.vars --import tsx --watch src/local.ts",
+    "dev:worker": "wrangler dev",
+    "typegen": "wrangler types",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "build": "wrangler deploy --dry-run --env=\"\" --outdir dist",
+    "check": "npm run typecheck && npm test && npm run test:worker",
+    "db:migrate": "node --env-file-if-exists=.dev.vars --import tsx scripts/migrate.ts",
+    "admin:create": "node --env-file-if-exists=.dev.vars --import tsx scripts/create-admin.ts",
+    "auth:benchmark": "node --import tsx scripts/benchmark-auth.ts",
+    "deploy:preview": "npm run check && wrangler deploy --env preview",
+    "deploy:production": "npm run check && wrangler deploy --env production",
+    "maintenance": "node --env-file-if-exists=.dev.vars --import tsx scripts/maintenance.ts",
+    "test:worker": "npm run build && node --test tests/worker-smoke.test.mjs",
+    "format": "prettier --write src scripts tests docs README.md wrangler.jsonc tsconfig.json package.json",
+    "format:check": "prettier --check src scripts tests docs README.md wrangler.jsonc tsconfig.json package.json"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1170.0",
+    "@aws-sdk/s3-request-presigner": "^3.1170.0",
+    "@aws-sdk/xml-builder": "3.972.43",
+    "@libsql/client": "^0.18.0",
+    "@smithy/fetch-http-handler": "^5.8.1",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "helmet": "^8.3.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "@types/supertest": "^7.2.1",
+    "miniflare": "^5.20261116.0-beta",
+    "prettier": "^3.10.1",
+    "supertest": "^7.3.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.163.0"
+  }
+}

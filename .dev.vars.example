@@ -1,0 +1,13 @@
+APP_ENV=development
+FRONTEND_ORIGINS=http://localhost:3000
+TURSO_DATABASE_URL=file:.local/karaoke.db
+TURSO_AUTH_TOKEN=
+# Generate once after db:migrate with scripts/worker-auth-migration.mjs prepare --allow-local.
+# PASSWORD_PEPPER is appended to your private .dev.vars; do not copy a key from another app.
+PORT=8787
+REGISTRATION_ENABLED=true
+# Required only for upload/download endpoints. Use a dedicated preview bucket.
+R2_ACCOUNT_ID=
+R2_BUCKET=karaoke-media-preview
+R2_ACCESS_KEY_ID=
+R2_SECRET_ACCESS_KEY=
