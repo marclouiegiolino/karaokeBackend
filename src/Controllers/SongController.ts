@@ -71,4 +71,9 @@ export class SongController {
   download: RequestHandler = async (req, res) => {
     res.json(await this.d.songService.download(String(req.params.id)));
   };
+  transcribeLyrics: RequestHandler = async (req, res) => {
+    res.json({
+      data: await this.d.transcription.transcribeSong(String(req.params.id), res.locals.input),
+    });
+  };
 }

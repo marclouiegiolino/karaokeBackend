@@ -1,6 +1,9 @@
 export interface RateLimitBinding {
   limit(options: { key: string }): Promise<{ success: boolean }>;
 }
+export interface AiBinding {
+  run(model: string, inputs: Record<string, unknown>, options?: unknown): Promise<unknown>;
+}
 export interface Environment {
   APP_ENV?: string;
   FRONTEND_ORIGINS?: string;
@@ -15,5 +18,7 @@ export interface Environment {
   REGISTRATION_ENABLED?: string;
   API_LIMITER?: RateLimitBinding;
   AUTH_LIMITER?: RateLimitBinding;
+  AI_LIMITER?: RateLimitBinding;
   MEDIA_BUCKET?: R2Bucket;
+  AI?: AiBinding;
 }

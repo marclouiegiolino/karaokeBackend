@@ -6,8 +6,8 @@ import { errorHandler } from './ErrorHandler.js';
 import { errorResponse } from './ErrorResponse.js';
 
 const keyCache = new Map<string, string>();
-function rateLimitKey(scope: 'api' | 'auth', ip: string): string {
-  const raw = scope + ':' + ip;
+function rateLimitKey(scope: 'api' | 'auth' | 'ai', identity: string): string {
+  const raw = scope + ':' + identity;
   let hashed = keyCache.get(raw);
   if (hashed === undefined) {
     if (keyCache.size >= 256) keyCache.clear();
@@ -38,10 +38,13 @@ export class LocalRateLimiter implements RateLimitBinding {
     return { success: bucket.n <= this.maximum };
   }
 }
-export function rateLimit(d: Dependencies, scope: 'api' | 'auth'): RequestHandler {
+export function rateLimit(d: Dependencies, scope: 'api' | 'auth' | 'ai'): RequestHandler {
   if (d.config.APP_ENV !== 'development' && !d.limiters)
     throw new Error('Production requires distributed rate limiter bindings');
-  const limiter = d.limiters?.[scope] ?? new LocalRateLimiter(scope === 'auth' ? 10 : 120);
+  const limiter =
+    scope === 'ai'
+      ? (d.limiters?.ai ?? d.limiters?.auth ?? new LocalRateLimiter(5, 60000))
+      : (d.limiters?.[scope] ?? new LocalRateLimiter(scope === 'auth' ? 10 : 120));
   const isWorker = d.runtime === 'worker';
   return async (req, res, next) => {
     try {
@@ -49,7 +52,9 @@ export function rateLimit(d: Dependencies, scope: 'api' | 'auth'): RequestHandle
       const ip = isWorker
         ? ((req.headers['cf-connecting-ip'] as string | undefined) ?? 'unknown')
         : (req.ip ?? 'unknown');
-      if (!(await limiter.limit({ key: rateLimitKey(scope, ip) })).success) {
+      const identity =
+        scope === 'ai' && res.locals.user?.id ? `${ip}:${String(res.locals.user.id)}` : ip;
+      if (!(await limiter.limit({ key: rateLimitKey(scope, identity) })).success) {
         res.setHeader('Retry-After', '60');
         errorResponse(res, 429, 'RATE_LIMITED', 'Too many requests; try again shortly');
         return;

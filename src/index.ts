@@ -25,8 +25,9 @@ const app = createApp(
     config,
     db,
     storage,
-    { api: bindings.API_LIMITER, auth: bindings.AUTH_LIMITER },
+    { api: bindings.API_LIMITER, auth: bindings.AUTH_LIMITER, ai: bindings.AI_LIMITER },
     'worker',
+    bindings.AI,
   ),
 );
 

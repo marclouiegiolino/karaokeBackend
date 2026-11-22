@@ -17,6 +17,9 @@
     "FRONTEND_ORIGINS": "http://localhost:3000,http://127.0.0.1:3000",
     "REGISTRATION_ENABLED": "false",
   },
+  "ai": {
+    "binding": "AI",
+  },
   "ratelimits": [
     {
       "name": "API_LIMITER",
@@ -42,6 +45,9 @@
         "APP_ENV": "preview",
         "FRONTEND_ORIGINS": "https://configure-preview-frontend.invalid",
         "REGISTRATION_ENABLED": "false",
+      },
+      "ai": {
+        "binding": "AI",
       },
       "ratelimits": [
         {
@@ -74,6 +80,9 @@
         "APP_ENV": "production",
         "FRONTEND_ORIGINS": "https://karaoke-backend-production.marclouiegi-olino.workers.dev,https://karaoke-frontend.marclouiegi-olino.workers.dev",
         "REGISTRATION_ENABLED": "false",
+      },
+      "ai": {
+        "binding": "AI",
       },
       "ratelimits": [
         {
