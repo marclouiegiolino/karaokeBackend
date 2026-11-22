@@ -1289,7 +1289,7 @@ test('bundled Worker completes audio and package uploads via native MEDIA_BUCKET
 
 test('multi-origin production FRONTEND_ORIGINS preserves backend origin, allows deployed frontend origin, and rejects unlisted origins', async () => {
   const backendOrigin = 'https://karaoke-backend-production.marclouiegi-olino.workers.dev';
-  const frontendOrigin = 'https://karaoke-frontend.example.workers.dev';
+  const frontendOrigin = 'https://karaoke-frontend.marclouiegi-olino.workers.dev';
   const unlistedOrigin = 'https://unlisted.example.com';
 
   const configuration = unstable_readConfig({ config: 'wrangler.jsonc', env: 'production' });
@@ -1298,10 +1298,11 @@ test('multi-origin production FRONTEND_ORIGINS preserves backend origin, allows 
     .map((value) => value.trim())
     .filter(Boolean);
   assert.equal(configuredOrigins.includes(backendOrigin), true);
+  assert.equal(configuredOrigins.includes(frontendOrigin), true);
   assert.equal(
     configuredOrigins.some((value) => value.endsWith('.invalid')),
-    true,
-    'Production FRONTEND_ORIGINS must clearly mark the unconfigured frontend origin placeholder until set',
+    false,
+    'Production FRONTEND_ORIGINS must not retain a .invalid placeholder',
   );
 
   const pepper = 'test-only-karaoke-dedicated-pepper-32-characters';

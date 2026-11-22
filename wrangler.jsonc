@@ -72,9 +72,7 @@
       ],
       "vars": {
         "APP_ENV": "production",
-        // Preserves the deployed backend origin; replace the .invalid placeholder with the exact
-        // deployed karaoke-frontend origin before redeploying the backend.
-        "FRONTEND_ORIGINS": "https://karaoke-backend-production.marclouiegi-olino.workers.dev,https://configure-production-frontend.invalid",
+        "FRONTEND_ORIGINS": "https://karaoke-backend-production.marclouiegi-olino.workers.dev,https://karaoke-frontend.marclouiegi-olino.workers.dev",
         "REGISTRATION_ENABLED": "false",
       },
       "ratelimits": [
